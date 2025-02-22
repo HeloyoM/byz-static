@@ -13,7 +13,7 @@ export async function PUT(endpoint: string, body: any) {
     ).data
 }
 
-export async function GET(endpoint: string) {
+export async function GET(endpoint?: string) {
     return await (
         await axios.get(`${LOCAL_DEV}/${endpoint}`)
     ).data

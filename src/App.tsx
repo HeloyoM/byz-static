@@ -5,11 +5,13 @@ import Navbar from 'components/Navbar';
 import { Container, Typography } from '@mui/material';
 import Profile from 'pages/Profile';
 import Gallery from 'pages/Gallery';
+import { AppCarousle } from 'components/carousel/AppCarousle';
+import { GET } from 'api/api-req';
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container maxWidth="lg" sx={{ padding: 2 }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,9 +27,20 @@ const App: React.FC = () => {
 export default App;
 
 export const Home: React.FC = () => {
+  const [isGetworks, setIsGetworks] = React.useState(false)
+
+  const handleGet = async () => {
+    await GET("auth").then((data) => {
+      console.log({ data })
+      setIsGetworks(true)
+    })
+  }
+
   return (
     <Typography variant="h3" align="center" gutterBottom>
-      Welcome to Electrician Services
+      <AppCarousle />
+      <button onClick={handleGet}>get request</button>
+      {isGetworks && <p>get works!</p>}
     </Typography>
   )
 }
