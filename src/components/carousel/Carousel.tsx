@@ -1,27 +1,48 @@
+import React, { useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel'
-import { Paper } from '@mui/material'
+import { AdvancedImage } from '@cloudinary/react';
+import { responsive, placeholder } from '@cloudinary/react';
+import { Cloudinary } from "@cloudinary/url-gen"
+import { auto } from '@cloudinary/url-gen/actions/resize';
+import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+import { getImagesResource } from 'api/media';
+import { ICloudinaryResource } from 'interface/ICloudinaryResource.interface';
 
-const img1 = require('../../assets/1.jpg')
-const img2 = require('../../assets/2.jpg')
+const AppCarousel = () => {
+    const [publicId, setPublicId] = useState<string[]>([]);
 
-export const CarouselImg = () => {
+    useEffect(() => {
+        getResources()
+    }, [])
 
-    let items = [
-        {
-            name: "Random Name #1",
-            img: img1
-        },
-        {
-            name: "Random Name #2",
-            img: img2
-        }
-    ]
+    const getResources = async (): Promise<void> => {
+        const data = await getImagesResource()
+
+        mapPublicIds(data)
+    }
+
+    const mapPublicIds = (data: any): void => {
+        const ids: string[] = []
+
+        data.map((r: ICloudinaryResource, i: number) => {
+            ids.push(r.public_id)
+        })
+
+        console.log({ ids })
+
+        setPublicId(ids)
+    }
+
+    const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
+
+    // `https://res.cloudinary.com/traceback/image/upload/${publicId}`
+
+    if (!publicId) return <></>
 
     return (
         <Carousel
             swipe
             duration={5000}
-            stopAutoPlayOnHover
             interval={6000}
             animation='slide'
             navButtonsProps={{
@@ -31,18 +52,14 @@ export const CarouselImg = () => {
                 }
             }}
         >
-            {
-                items.map((item, i) => <Item key={i} item={item} />)
-            }
+            {/* <AdvancedImage
+                style={{ maxWidth: '100%' }}
+                cldImg={cld.image(publicId)}
+                plugins={[responsive(), placeholder()]}
+            /> */}
+
         </Carousel>
     )
 }
 
-function Item(props: any) {
-    return (
-        <Paper sx={{ width: '100%', height: '100%' }}>
-            <img src={props.item.img} />
-
-        </Paper>
-    )
-}
+export default AppCarousel;
