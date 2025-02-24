@@ -3,48 +3,46 @@ import Carousel from 'react-material-ui-carousel'
 import { AdvancedImage } from '@cloudinary/react';
 import { responsive, placeholder } from '@cloudinary/react';
 import { Cloudinary } from "@cloudinary/url-gen"
-import { auto } from '@cloudinary/url-gen/actions/resize';
-import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
-import { getImagesResource } from 'api/media';
-import { ICloudinaryResource } from 'interface/ICloudinaryResource.interface';
 
+const ids = [
+    "happy_people",
+    "cld-sample-5",
+    "cld-sample-4",
+    "cld-sample-3",
+    "cld-sample-2",
+    "cld-sample",
+    "samples/woman-on-a-football-field",
+    "samples/dessert-on-a-plate",
+    "samples/cup-on-a-table",
+    "samples/chair-and-coffee-table"
+]
+
+const mainScreenCarouselSwipTime = 5000
 const AppCarousel = () => {
-    const [publicId, setPublicId] = useState<string[]>([]);
-
-    useEffect(() => {
-        getResources()
-    }, [])
-
-    const getResources = async (): Promise<void> => {
-        const data = await getImagesResource()
-
-        mapPublicIds(data)
-    }
-
-    const mapPublicIds = (data: any): void => {
-        const ids: string[] = []
-
-        data.map((r: ICloudinaryResource, i: number) => {
-            ids.push(r.public_id)
-        })
-
-        console.log({ ids })
-
-        setPublicId(ids)
-    }
+    const [currentImg, setCurrentImg] = useState(0);
+    const [publicId, setPublicId] = useState<string>(ids[currentImg]);
 
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
-    // `https://res.cloudinary.com/traceback/image/upload/${publicId}`
+    useEffect(() => {
+        setTimeout(() => {
+            const next = currentImg + 1;
+            setCurrentImg(prev => next);
+
+            setPublicId(ids[next]);
+
+        }, mainScreenCarouselSwipTime);
+
+    }, [publicId])
 
     if (!publicId) return <></>
 
     return (
         <Carousel
             swipe
-            duration={5000}
-            interval={6000}
-            animation='slide'
+            // duration={5000}
+            // interval={6000}
+            // animation='slide'
             navButtonsProps={{
                 style: {
                     backgroundColor: 'cornflowerblue',
@@ -52,11 +50,11 @@ const AppCarousel = () => {
                 }
             }}
         >
-            {/* <AdvancedImage
+            <AdvancedImage
                 style={{ maxWidth: '100%' }}
                 cldImg={cld.image(publicId)}
                 plugins={[responsive(), placeholder()]}
-            /> */}
+            />
 
         </Carousel>
     )

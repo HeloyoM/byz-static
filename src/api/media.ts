@@ -7,6 +7,5 @@ export const uploadMedia = async (file: any) => {
 }
 
 export const getImagesResource = async () => {
-    // const token = btoa('489429477952237:-fb9R6h_RAWgIhscYm_jVDQQ_38')
     return await GET(`${API}/resources`)
 }
