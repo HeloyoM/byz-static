@@ -1,8 +1,8 @@
 import React from 'react';
-import Carousel from 'react-material-ui-carousel'
+import Carousel from 'react-material-ui-carousel';
 import { AdvancedImage } from '@cloudinary/react';
 import { responsive, placeholder } from '@cloudinary/react';
-import { Cloudinary } from "@cloudinary/url-gen"
+import { Cloudinary } from "@cloudinary/url-gen";
 
 const ids = [
     "cld-sample-5",
@@ -15,7 +15,7 @@ const ids = [
     "samples/chair-and-coffee-table"
 ]
 
-const mainScreenCarouselSwipTime = 5000
+const mainScreenCarouselSwipTime = 5000;
 
 const AppCarousel = () => {
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });

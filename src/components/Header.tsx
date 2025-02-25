@@ -20,6 +20,7 @@ const Header = () => {
             primary: 'active', handleClick: () => { }, secondary: ''
         }
     ]
+
     React.useEffect(() => {
 
         const handleScroll = () => {

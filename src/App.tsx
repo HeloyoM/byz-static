@@ -1,16 +1,15 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Container, IconButton, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Profile from 'pages/Profile';
 import Gallery from 'pages/Gallery';
 import Home from 'pages/Home';
 import ScreenWrapper from 'components/ScreenWrapper';
-import './App.css';
 import Header from 'components/Header';
+import './App.css';
 
 const App: React.FC = () => {
-
 
   return (
     <Router>
