@@ -7,21 +7,27 @@ import Gallery from 'pages/Gallery';
 import Home from 'pages/Home';
 import ScreenWrapper from 'components/ScreenWrapper';
 import Header from 'components/Header';
+import AppUserContext from 'contexes/AppUserContext';
 import './App.css';
 
 const App: React.FC = () => {
+  const [crrUser, setUser] = React.useState<any>(null);
+
+  const updateUserContext = (user: any) => { setUser(user) };
 
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<ScreenWrapper ><Home /></ScreenWrapper>} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+    <AppUserContext.Provider value={{ updateUserContext, user: crrUser }}>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<ScreenWrapper ><Home /></ScreenWrapper>} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
 
-    </Router>
+      </Router>
+    </AppUserContext.Provider>
   );
 };
 

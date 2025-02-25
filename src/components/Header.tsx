@@ -7,11 +7,13 @@ import AppList from 'components/common/AppList';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAuth0 } from "@auth0/auth0-react";
+import AppUserContext from 'contexes/AppUserContext';
+import GoogleButton from './common/GoogleButton';
 
 const LoginButton = () => {
     const { loginWithRedirect } = useAuth0();
 
-    return <button onClick={() => loginWithRedirect()}>Log In</button>;
+    return <GoogleButton handleClick={loginWithRedirect}>Log In</GoogleButton>;
 };
 
 const LogoutButton = () => {
@@ -22,13 +24,15 @@ const LogoutButton = () => {
 }
 
 const Header = () => {
-    const { user, isAuthenticated, isLoading } = useAuth0();
+    const { user: authUser, isAuthenticated, isLoading } = useAuth0();
     const [isSticky, setSticky] = React.useState(false)
     const [openMenu, setOpenMenu] = React.useState(false)
 
     const openMenuModal = () => { setOpenMenu(true) }
     const closeMenuModal = () => { setOpenMenu(false) }
-    console.log({ user })
+
+    const { updateUserContext } = React.useContext(AppUserContext)
+
     const optionsListItems: IListItem[] = [
         { primary: 'galery', handleClick: () => { }, secondary: '' },
         {
@@ -36,11 +40,14 @@ const Header = () => {
         },
         {
             primary: <LoginButton />, handleClick: () => { }, secondary: ''
-        },
-        {
-            primary: <LogoutButton />, handleClick: () => { }, secondary: ''
         }
     ]
+
+    if (isAuthenticated) {
+        localStorage.setItem('token', authUser?.email!)
+        updateUserContext(authUser)
+        optionsListItems.push({ primary: <LogoutButton />, handleClick: () => { }, secondary: '' })
+    }
 
     React.useEffect(() => {
 
