@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography } from "@mui/material";
 import '../App.css';
 import { IListItem } from 'interface/IListItem.interface';
@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useAuth0 } from "@auth0/auth0-react";
 import AppUserContext from 'contexes/AppUserContext';
 import GoogleButton from './common/GoogleButton';
+import AppModal from './common/AppModal';
 
 const LoginButton = () => {
     const { loginWithRedirect } = useAuth0();
@@ -24,7 +25,8 @@ const LogoutButton = () => {
 }
 
 const Header = () => {
-    const { user: authUser, isAuthenticated, isLoading } = useAuth0();
+    const { user: authUser, isAuthenticated } = useAuth0();
+    const [openModal, setOpenModal] = React.useState(false)
     const [isSticky, setSticky] = React.useState(false)
     const [openMenu, setOpenMenu] = React.useState(false)
 
@@ -40,14 +42,24 @@ const Header = () => {
         },
         {
             primary: <LoginButton />, handleClick: () => { }, secondary: ''
-        }
+        }, { primary: <LogoutButton />, handleClick: () => { }, secondary: '' }
     ]
 
-    if (isAuthenticated) {
-        localStorage.setItem('token', authUser?.email!)
-        updateUserContext(authUser)
-        optionsListItems.push({ primary: <LogoutButton />, handleClick: () => { }, secondary: '' })
+    const closeModal = () => {
+        setOpenModal(prev => false)
     }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            if (authUser?.email === "mybs2323@gmail.com") {
+                localStorage.setItem('token', authUser?.email!)
+                updateUserContext(authUser)
+                optionsListItems.push({ primary: <LogoutButton />, handleClick: () => { }, secondary: '' })
+            } else {
+                setOpenModal(true)
+            }
+        }
+    }, [isAuthenticated, authUser])
 
     React.useEffect(() => {
 
@@ -69,13 +81,16 @@ const Header = () => {
     }, [])
 
     return (
-        <Typography className={isSticky ? 'title sticky' : 'title'}>
-            <Typography style={{ margin: 'auto auto' }}>BYL</Typography>
-            {openMenu ? <CloseIcon className="menu-btn" onClick={closeMenuModal} /> : <MenuIcon onClick={openMenuModal} className="menu-btn" />}
+        <>
+            <Typography className={isSticky ? 'title sticky' : 'title'}>
+                <Typography style={{ margin: 'auto auto' }}>BYL</Typography>
+                {openMenu ? <CloseIcon className="menu-btn" onClick={closeMenuModal} /> : <MenuIcon onClick={openMenuModal} className="menu-btn" />}
 
-            <Menu menuBody={<AppList items={optionsListItems} />} close={closeMenuModal} openMenu={openMenu} />
+                <Menu menuBody={<AppList items={optionsListItems} />} close={closeMenuModal} openMenu={openMenu} />
 
-        </Typography>
+            </Typography>
+            <AppModal open={openModal} children={<Typography>Only admin is able to login!</Typography>} close={closeModal} />
+        </>
     )
 }
 

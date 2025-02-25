@@ -14,7 +14,7 @@ const App: React.FC = () => {
   const [crrUser, setUser] = React.useState<any>(null);
 
   const updateUserContext = (user: any) => { setUser(user) };
-
+  console.log({ crrUser })
   return (
     <AppUserContext.Provider value={{ updateUserContext, user: crrUser }}>
       <Router>
