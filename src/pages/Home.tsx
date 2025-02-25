@@ -1,12 +1,10 @@
 import React from 'react';
-import { Typography } from '@mui/material';
 import AppCarousel from 'components/carousel/Carousel';
 
 const Home: React.FC = () => {
-    return (
-        <Typography variant="h3" align="center" gutterBottom>
-
-            {/* <UploadWidget setPublicId={setPublicId} />
+  return (
+    <AppCarousel />)
+{/* <UploadWidget setPublicId={setPublicId} />
   
         {publicId && (
           <div
@@ -19,12 +17,9 @@ const Home: React.FC = () => {
               plugins={[responsive(), placeholder()]}
             />
           </div>
-        )} */}
+        )} 
+*/}
 
-            <AppCarousel />
-
-        </Typography>
-    )
 }
 
 export default Home;
