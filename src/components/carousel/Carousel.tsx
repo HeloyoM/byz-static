@@ -4,13 +4,13 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
 import Carousel from 'react-material-ui-carousel';
 import { AdvancedImage } from '@cloudinary/react';
 import { responsive, placeholder } from '@cloudinary/react';
 import { Cloudinary } from "@cloudinary/url-gen";
 import AppUserContext from 'contexes/AppUserContext';
 import DeleteIcon from '@mui/icons-material/Delete';
+import UploadWidget from 'components/utils/UploadWidget';
 
 const itemData = [
     {
@@ -61,6 +61,11 @@ const itemData = [
         title: 'Fern',
         author: '@katie_wasserman',
     },
+    {
+        img: 'e9zwqee8midhh9jgenmo',
+        title: 'Fern',
+        author: '@katie_wasserman',
+    },
 ];
 
 const ids = [
@@ -71,12 +76,14 @@ const ids = [
     "cld-sample",
     "samples/dessert-on-a-plate",
     "samples/cup-on-a-table",
-    "samples/chair-and-coffee-table"
+    "samples/chair-and-coffee-table",
+    "e9zwqee8midhh9jgenmo"
 ]
 
 const mainScreenCarouselSwipTime = 5000;
 
 const AppCarousel = () => {
+    const [public_id, setPublicId] = React.useState('')
     const { user } = React.useContext(AppUserContext)
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
@@ -84,33 +91,36 @@ const AppCarousel = () => {
 
     if (user !== null && user.email === "mybs2323@gmail.com") {
         return (
-            <ImageList sx={{ width: '100%', height: 1100 }}>
-                <ImageListItem key="Subheader" cols={2}>
-                    <ListSubheader component="div" style={{fontWeight: 'bold', textAlign: 'right'}}>במצב שליטת מנהל מערכת</ListSubheader>
-                </ImageListItem>
-                {itemData.map((item, i) => (
-                    <ImageListItem key={item.img}>
-                        <AdvancedImage
-                            key={i}
-                            style={{ width: '100%', height: 300, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
-                            cldImg={cld.image(item.img)}
-                            plugins={[responsive(), placeholder()]}
-                        />
-                        <ImageListItemBar
-                            title={item.title}
-                            subtitle={item.author}
-                            actionIcon={
-                                <IconButton
-                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                    aria-label={`info about ${item.title}`}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            }
-                        />
+            <>
+                <UploadWidget setPublicId={setPublicId} />
+                <ImageList sx={{ width: '100%', height: 1100 }}>
+                    <ImageListItem key="Subheader" cols={2}>
+                        <ListSubheader component="div" style={{ fontWeight: 'bold', textAlign: 'right' }}>במצב שליטת מנהל מערכת</ListSubheader>
                     </ImageListItem>
-                ))}
-            </ImageList>
+                    {itemData.map((item, i) => (
+                        <ImageListItem key={item.img}>
+                            <AdvancedImage
+                                key={i}
+                                style={{ width: '100%', height: 300, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
+                                cldImg={cld.image(item.img)}
+                                plugins={[responsive(), placeholder()]}
+                            />
+                            <ImageListItemBar
+                                title={item.title}
+                                subtitle={item.author}
+                                actionIcon={
+                                    <IconButton
+                                        sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                        aria-label={`info about ${item.title}`}
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                }
+                            />
+                        </ImageListItem>
+                    ))}
+                </ImageList>
+            </>
         )
     }
 
