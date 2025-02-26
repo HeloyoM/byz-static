@@ -11,6 +11,8 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import AppUserContext from 'contexes/AppUserContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UploadWidget from 'components/utils/UploadWidget';
+import { uploadMedia } from 'api/media';
+import { useForm } from 'react-hook-form'
 
 const itemData = [
     {
@@ -35,12 +37,6 @@ const itemData = [
         img: "cld-sample-2",
         title: 'Coffee',
         author: '@nolanissac',
-        cols: 2,
-    },
-    {
-        img: "cld-sample",
-        title: 'Hats',
-        author: '@hjrc33',
         cols: 2,
     },
     {
@@ -73,7 +69,6 @@ const ids = [
     "cld-sample-4",
     "cld-sample-3",
     "cld-sample-2",
-    "cld-sample",
     "samples/dessert-on-a-plate",
     "samples/cup-on-a-table",
     "samples/chair-and-coffee-table",
@@ -87,12 +82,48 @@ const AppCarousel = () => {
     const { user } = React.useContext(AppUserContext)
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
+    const { register, watch } = useForm()
+
+    // const handleUpload = () => {
+    //     const file = watch("file")[0]
+
+    //     console.log({ file })
+    //     // uploadMedia(file)
+
+    // }
+    React.useEffect(() => {
+        if (!watch("file")) return
+
+        const file = watch("file")[0]
+
+        const formData = new FormData()
+        formData.append("file", file)
+
+
+        // const file = watch("file")
+        // console.log({ file })
+
+        // const formData = new FormData()
+
+        // formData.append("file", file)
+
+        uploadMedia(formData)
+    }, [watch("file")])
+
     if (!ids.length) return <></>
 
     if (user !== null && user.email === "mybs2323@gmail.com") {
         return (
             <>
-                <UploadWidget setPublicId={setPublicId} />
+                {/* <UploadWidget setPublicId={setPublicId} /> */}
+                <form id="uploadForm" encType="multipart/form-data">
+                    <input
+                        multiple
+                        {...register("file")}
+                        type="file"
+                    />
+                    <button type="submit">Upload Image</button>
+                </form>
                 <ImageList sx={{ width: '100%', height: 1100 }}>
                     <ImageListItem key="Subheader" cols={2}>
                         <ListSubheader component="div" style={{ fontWeight: 'bold', textAlign: 'right' }}>במצב שליטת מנהל מערכת</ListSubheader>

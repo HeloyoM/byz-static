@@ -1,9 +1,21 @@
+import axios from "axios";
 import { GET, POST } from "./api-req";
-
+import { LOCAL_DEV } from "./base-url";
 const API = 'media'
 
 export const uploadMedia = async (file: any) => {
-    return await POST(`${API}/upload`, file)
+
+    console.log({ file })
+    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-from-browser`, file , {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+
+    console.log(response)
+    // const result = await response.json();
+    // console.log(result)
+
 }
 
 export const getImagesResource = async () => {
