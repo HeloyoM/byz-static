@@ -6,16 +6,23 @@ const API = 'media'
 export const uploadMedia = async (file: any) => {
 
     console.log({ file })
-    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-from-browser`, file , {
+    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-image`, file, {
         headers: {
             "Content-Type": "multipart/form-data",
         },
     });
+    console.log({ response })
+}
 
-    console.log(response)
-    // const result = await response.json();
-    // console.log(result)
+export const uploadVideo = async (file: any) => {
 
+    console.log({ file })
+    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-video`, file, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+    console.log({ response })
 }
 
 export const getImagesResource = async () => {

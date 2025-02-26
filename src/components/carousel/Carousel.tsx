@@ -10,7 +10,7 @@ import { responsive, placeholder } from '@cloudinary/react';
 import { Cloudinary } from "@cloudinary/url-gen";
 import AppUserContext from 'contexes/AppUserContext';
 import DeleteIcon from '@mui/icons-material/Delete';
-import UploadWidget from 'components/utils/UploadWidget';
+// import UploadWidget from 'components/utils/UploadWidget';
 import { uploadMedia } from 'api/media';
 import { useForm } from 'react-hook-form'
 
@@ -78,37 +78,19 @@ const ids = [
 const mainScreenCarouselSwipTime = 5000;
 
 const AppCarousel = () => {
-    const [public_id, setPublicId] = React.useState('')
     const { user } = React.useContext(AppUserContext)
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
     const { register, watch } = useForm()
 
-    // const handleUpload = () => {
-    //     const file = watch("file")[0]
-
-    //     console.log({ file })
-    //     // uploadMedia(file)
-
-    // }
-    React.useEffect(() => {
-        if (!watch("file")) return
-
+    const handleUpload = () => {
         const file = watch("file")[0]
 
         const formData = new FormData()
         formData.append("file", file)
 
-
-        // const file = watch("file")
-        // console.log({ file })
-
-        // const formData = new FormData()
-
-        // formData.append("file", file)
-
         uploadMedia(formData)
-    }, [watch("file")])
+    }
 
     if (!ids.length) return <></>
 
@@ -116,14 +98,15 @@ const AppCarousel = () => {
         return (
             <>
                 {/* <UploadWidget setPublicId={setPublicId} /> */}
-                <form id="uploadForm" encType="multipart/form-data">
-                    <input
-                        multiple
-                        {...register("file")}
-                        type="file"
-                    />
-                    <button type="submit">Upload Image</button>
-                </form>
+
+                <input
+                    multiple
+                    {...register("file")}
+                    type="file"
+                />
+
+                {!!watch("file") && <button onClick={handleUpload} type="submit">העלאת תמונה</button>}
+
                 <ImageList sx={{ width: '100%', height: 1100 }}>
                     <ImageListItem key="Subheader" cols={2}>
                         <ListSubheader component="div" style={{ fontWeight: 'bold', textAlign: 'right' }}>במצב שליטת מנהל מערכת</ListSubheader>
