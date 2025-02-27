@@ -14,17 +14,15 @@ export const uploadMedia = async (file: any) => {
     console.log({ response })
 }
 
-export const uploadVideo = async (file: any) => {
-
-    console.log({ file })
-    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-video`, file, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
+export const uploadVideo = async (file: any, headers: any) => {
+    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-large-from-local`, file, {
+        headers
     });
     console.log({ response })
 }
 
 export const getImagesResource = async () => {
-    return await GET(`${API}/resources`)
+    const data = await GET(`${API}/list-uploaded-files`)
+
+    return data
 }

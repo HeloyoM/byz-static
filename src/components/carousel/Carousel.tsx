@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
@@ -11,7 +11,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import AppUserContext from 'contexes/AppUserContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import UploadWidget from 'components/utils/UploadWidget';
-import { uploadMedia } from 'api/media';
+import { getImagesResource, uploadMedia, uploadVideo } from 'api/media';
 import { useForm } from 'react-hook-form'
 
 const itemData = [
@@ -64,20 +64,35 @@ const itemData = [
     },
 ];
 
-const ids = [
-    "cld-sample-5",
-    "cld-sample-4",
-    "cld-sample-3",
-    "cld-sample-2",
-    "samples/dessert-on-a-plate",
-    "samples/cup-on-a-table",
-    "samples/chair-and-coffee-table",
-    "e9zwqee8midhh9jgenmo"
-]
-
 const mainScreenCarouselSwipTime = 5000;
 
 const AppCarousel = () => {
+    const [publicIds, setPublicIds] = React.useState([])
+
+    useEffect(() => {
+        if (!!publicIds.length) return
+        const resources = localStorage.getItem(`resources`)
+
+        if (resources) {
+
+            const resourcesObj = JSON.parse(resources)
+            setPublicIds(extractPublicIds(resourcesObj))
+        } else loadUploadedImages()
+
+    }, [publicIds])
+
+    const loadUploadedImages = async () => {
+        const data = await getImagesResource()
+
+        localStorage.setItem("resources", JSON.stringify(data.resources))
+
+        setPublicIds(extractPublicIds(data.resources))
+    }
+
+    const extractPublicIds = (resources: any) => (resources.map((r: any) => r.public_id))
+
+
+
     const { user } = React.useContext(AppUserContext)
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
@@ -92,7 +107,36 @@ const AppCarousel = () => {
         uploadMedia(formData)
     }
 
-    if (!ids.length) return <></>
+    const handleUploadVideo = () => {
+        const video = watch("video")[0];
+        console.log({ video })
+        const chunkSize = 6_000_000;
+        const totalChunks = Math.ceil(video.size / chunkSize);
+
+        const uploadId = crypto.randomUUID();
+
+        for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+            const start = chunkIndex * chunkSize;
+            const end = Math.min(start + chunkSize, video.size);
+            const chunk = video.slice(start, end);
+
+            const formData = new FormData();
+            formData.append('video', video);
+
+            const headers = {
+                'x-unique-upload-id': uploadId,
+                'content-range': `bytes ${start}-${end - 1}/${video.size}`,
+            };
+
+            console.log({ formData, headers })
+
+            uploadVideo(formData, headers)
+
+        }
+
+    }
+
+    if (!publicIds.length) return <></>
 
     if (user !== null && user.email === "mybs2323@gmail.com") {
         return (
@@ -106,6 +150,15 @@ const AppCarousel = () => {
                 />
 
                 {!!watch("file") && <button onClick={handleUpload} type="submit">העלאת תמונה</button>}
+
+                <input
+                    multiple
+                    placeholder='video'
+                    {...register("video")}
+                    type="file"
+                />
+
+                {!!watch("video") && <button name="video" onClick={handleUploadVideo} type="submit">העלאת וידאו</button>}
 
                 <ImageList sx={{ width: '100%', height: 1100 }}>
                     <ImageListItem key="Subheader" cols={2}>
@@ -152,7 +205,7 @@ const AppCarousel = () => {
             }}
         >
             {
-                ids.map((item, i) => (<AdvancedImage
+                publicIds.map((item, i) => (<AdvancedImage
                     key={i}
                     style={{ width: '100%', height: 900, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
                     cldImg={cld.image(item)}
