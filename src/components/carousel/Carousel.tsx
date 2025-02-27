@@ -11,63 +11,13 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import AppUserContext from 'contexes/AppUserContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import UploadWidget from 'components/utils/UploadWidget';
-import { getImagesResource, uploadMedia, uploadVideo } from 'api/media';
-import { useForm } from 'react-hook-form'
-
-const itemData = [
-    {
-        img: "cld-sample-5",
-        title: 'Breakfast',
-        author: '@bkristastucchio',
-        rows: 2,
-        cols: 2,
-        featured: true,
-    },
-    {
-        img: "cld-sample-4",
-        title: 'Burger',
-        author: '@rollelflex_graphy726',
-    },
-    {
-        img: "cld-sample-3",
-        title: 'Camera',
-        author: '@helloimnik',
-    },
-    {
-        img: "cld-sample-2",
-        title: 'Coffee',
-        author: '@nolanissac',
-        cols: 2,
-    },
-    {
-        img: 'samples/dessert-on-a-plate',
-        title: 'Honey',
-        author: '@arwinneil',
-        rows: 2,
-        cols: 2,
-        featured: true,
-    },
-    {
-        img: 'samples/cup-on-a-table',
-        title: 'Basketball',
-        author: '@tjdragotta',
-    },
-    {
-        img: 'samples/chair-and-coffee-table',
-        title: 'Fern',
-        author: '@katie_wasserman',
-    },
-    {
-        img: 'e9zwqee8midhh9jgenmo',
-        title: 'Fern',
-        author: '@katie_wasserman',
-    },
-];
+import { deleteResource, getImagesResource, uploadMedia, uploadVideo } from 'api/media';
+import { useForm } from 'react-hook-form';
 
 const mainScreenCarouselSwipTime = 5000;
 
 const AppCarousel = () => {
-    const [publicIds, setPublicIds] = React.useState([])
+    const [publicIds, setPublicIds] = React.useState<any[]>([])
 
     useEffect(() => {
         if (!!publicIds.length) return
@@ -91,25 +41,25 @@ const AppCarousel = () => {
 
     const extractPublicIds = (resources: any) => (resources.map((r: any) => r.public_id))
 
-
-
     const { user } = React.useContext(AppUserContext)
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
     const { register, watch } = useForm()
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         const file = watch("file")[0]
 
         const formData = new FormData()
         formData.append("file", file)
 
-        uploadMedia(formData)
+        const response = await uploadMedia(formData)
+
+        setPublicIds(perv => [...publicIds, response.public_id])
     }
 
     const handleUploadVideo = () => {
         const video = watch("video")[0];
-        console.log({ video })
+
         const chunkSize = 6_000_000;
         const totalChunks = Math.ceil(video.size / chunkSize);
 
@@ -134,6 +84,10 @@ const AppCarousel = () => {
 
         }
 
+    }
+
+    const handleDeleteResource = (id: string) => {
+        deleteResource(id)
     }
 
     if (!publicIds.length) return <></>
@@ -164,21 +118,20 @@ const AppCarousel = () => {
                     <ImageListItem key="Subheader" cols={2}>
                         <ListSubheader component="div" style={{ fontWeight: 'bold', textAlign: 'right' }}>במצב שליטת מנהל מערכת</ListSubheader>
                     </ImageListItem>
-                    {itemData.map((item, i) => (
-                        <ImageListItem key={item.img}>
+                    {publicIds.map((item, i) => (
+                        <ImageListItem key={item}>
                             <AdvancedImage
                                 key={i}
                                 style={{ width: '100%', height: 300, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
-                                cldImg={cld.image(item.img)}
+                                cldImg={cld.image(item)}
                                 plugins={[responsive(), placeholder()]}
                             />
                             <ImageListItemBar
-                                title={item.title}
-                                subtitle={item.author}
+                                onClick={() => handleDeleteResource(item)}
+                                sx={{ "root": { backgroundColor: 'white !impoartant' } }}
                                 actionIcon={
                                     <IconButton
-                                        sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                        aria-label={`info about ${item.title}`}
+                                        sx={{ color: 'rgb(255, 0, 0)' }}
                                     >
                                         <DeleteIcon />
                                     </IconButton>
