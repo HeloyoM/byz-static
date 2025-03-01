@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
@@ -19,24 +19,26 @@ const mainScreenCarouselSwipTime = 5000;
 const AppCarousel = () => {
     const [publicIds, setPublicIds] = React.useState<any[]>([])
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!!publicIds.length) return
-        const resources = localStorage.getItem(`resources`)
+
+        const resources = localStorage.getItem(`resources`);
 
         if (resources) {
 
-            const resourcesObj = JSON.parse(resources)
-            setPublicIds(extractPublicIds(resourcesObj))
-        } else loadUploadedImages()
+            const resourcesObj = JSON.parse(resources);
+            setPublicIds(extractPublicIds(resourcesObj));
+
+        } else loadUploadedImages();
 
     }, [publicIds])
 
     const loadUploadedImages = async () => {
-        const data = await getImagesResource()
+        const data = await getImagesResource();
 
-        localStorage.setItem("resources", JSON.stringify(data.resources))
+        localStorage.setItem("resources", JSON.stringify(data.resources));
 
-        setPublicIds(extractPublicIds(data.resources))
+        setPublicIds(extractPublicIds(data.resources));
     }
 
     const extractPublicIds = (resources: any) => (resources.map((r: any) => r.public_id))
@@ -86,8 +88,12 @@ const AppCarousel = () => {
 
     }
 
-    const handleDeleteResource = (id: string) => {
-        deleteResource(id)
+    const handleDeleteResource = async(id: string) => {
+        const response = await deleteResource(id)
+
+        // if(response){
+        //     const updatedArray = 
+        // }
     }
 
     if (!publicIds.length) return <></>
