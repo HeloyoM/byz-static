@@ -26,7 +26,7 @@ const LogoutButton = () => {
 const Header = () => {
     const { user: authUser, isAuthenticated } = useAuth0();
     const [openModal, setOpenModal] = React.useState(false)
-    const [isSticky, setSticky] = React.useState(false)
+    // const [isSticky, setSticky] = React.useState(false)
     const [openMenu, setOpenMenu] = React.useState(false)
 
     const openMenuModal = () => { setOpenMenu(true) }
@@ -60,28 +60,28 @@ const Header = () => {
         }
     }, [isAuthenticated, authUser])
 
-    React.useEffect(() => {
+    // React.useEffect(() => {
 
-        const handleScroll = () => {
-            if (window.scrollY > 0) {
-                setSticky(true)
-            } else {
-                setSticky(false)
-            }
-        }
-
-
-        window.addEventListener('scroll', handleScroll)
+    //     const handleScroll = () => {
+    //         if (window.scrollY > 0) {
+    //             setSticky(true)
+    //         } else {
+    //             setSticky(false)
+    //         }
+    //     }
 
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
+    //     window.addEventListener('scroll', handleScroll)
+
+
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll)
+    //     }
+    // }, [])
 
     return (
         <>
-            <Typography className={isSticky ? 'title sticky' : 'title'}>
+            <Typography className={/*isSticky ? 'title sticky' : */'sticky title'}>
                 <Typography style={{ margin: 'auto auto', fontSize: '22px' }}>BYL</Typography>
                 {!openMenu && <MenuIcon onClick={openMenuModal} className="menu-btn" />}
 
