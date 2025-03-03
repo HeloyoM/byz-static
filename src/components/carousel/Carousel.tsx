@@ -88,7 +88,7 @@ const AppCarousel = () => {
 
     }
 
-    const handleDeleteResource = async(id: string) => {
+    const handleDeleteResource = async (id: string) => {
         const response = await deleteResource(id)
 
         // if(response){
