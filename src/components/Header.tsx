@@ -5,7 +5,6 @@ import { IListItem } from 'interface/IListItem.interface';
 import Menu from 'components/common/Menu';
 import AppList from 'components/common/AppList';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import { useAuth0 } from "@auth0/auth0-react";
 import AppUserContext from 'contexes/AppUserContext';
 import GoogleButton from './common/GoogleButton';
@@ -83,8 +82,8 @@ const Header = () => {
     return (
         <>
             <Typography className={isSticky ? 'title sticky' : 'title'}>
-                <Typography style={{ margin: 'auto auto' }}>BYL</Typography>
-                {openMenu ? <CloseIcon className="menu-btn" onClick={closeMenuModal} /> : <MenuIcon onClick={openMenuModal} className="menu-btn" />}
+                <Typography style={{ margin: 'auto auto', fontSize: '22px' }}>BYL</Typography>
+                {!openMenu && <MenuIcon onClick={openMenuModal} className="menu-btn" />}
 
                 <Menu menuBody={<AppList items={optionsListItems} />} close={closeMenuModal} openMenu={openMenu} />
 

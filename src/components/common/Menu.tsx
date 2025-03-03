@@ -1,8 +1,7 @@
 import { Drawer, IconButton } from '@mui/material'
 import { JSX } from 'react'
-import { styled, useTheme } from '@mui/material/styles';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { styled } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
     openMenu: boolean
@@ -21,7 +20,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Menu = (props: Props) => {
     const { close, menuBody, openMenu, variant = 'temporary' } = props
-    const theme = useTheme();
+
     return (
         <Drawer
             sx={{
@@ -39,7 +38,7 @@ const Menu = (props: Props) => {
 
             <DrawerHeader>
                 <IconButton onClick={close}>
-                    {theme.direction === 'ltr' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    <CloseIcon className="menu-btn" />
                 </IconButton>
             </DrawerHeader>
 
