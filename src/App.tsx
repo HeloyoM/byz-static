@@ -44,7 +44,7 @@ const App: React.FC = () => {
     <AppDirectionContext.Provider value={{ isRtlDirection, toggleDirection }}>
       <AppUserContext.Provider value={{ updateUserContext, user: crrUser }}>
         <Router>
-          <Header />
+          <ScreenWrapper><Header /></ScreenWrapper>
 
           <Routes>
             <Route path="/" element={<Home />} />

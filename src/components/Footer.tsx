@@ -21,8 +21,8 @@ const Footer = () => {
         >
             <Grid2 container spacing={2}>
                 <Grid2 size={12}>
-                    <Typography variant="body2" align="center" >
-                        {!isMobile ?<img src={Logo_Data} /> : <img src={Logo_Data_Mobile}/>}
+                    <Typography variant="body2" align="center" sx={{ margin: '8 !important' }}>
+                        {!isMobile ? <img src={Logo_Data} /> : <img src={Logo_Data_Mobile} />}
                     </Typography>
                 </Grid2>
                 <Grid2 size={12}>
