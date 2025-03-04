@@ -10,7 +10,7 @@ import AppUserContext from 'contexes/AppUserContext';
 import GoogleButton from './common/GoogleButton';
 import AppModal from './common/AppModal';
 import settings from '../settings/settings.json'
-const Logo = require('../assets/logo.jpg')
+const Logo = require('../assets/logo.png')
 
 const LoginButton = () => {
     const { loginWithRedirect } = useAuth0();
@@ -60,7 +60,8 @@ const Header = () => {
         <>
             <Typography className={'sticky title'}>
 
-                <img src={Logo} width={75} height={75} style={{ willChange: "scroll-position" }} />
+                <img src={Logo} width={75} height={75} style={{ backgroundColor: 'inherit', marginLeft: 20 }} />
+                
                 <Typography style={{ margin: 'auto auto', fontSize: '22px' }}>{settings.name}</Typography>
 
                 {!openMenu && <MenuIcon onClick={openMenuModal} className="menu-btn" />}

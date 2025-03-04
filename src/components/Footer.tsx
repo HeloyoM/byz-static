@@ -1,6 +1,8 @@
 import { Box, Link, Typography } from "@mui/material";
 import Grid2 from '@mui/material/Grid2';
-const Logo = require('../assets/logo.jpg')
+import settings from '../settings/settings.json';
+const Logo = require('../assets/logo.png');
+const Logo_Data = require('../assets/logo_data_opacity.png');
 
 const Footer = () => {
 
@@ -15,31 +17,12 @@ const Footer = () => {
             }}
         >
             <Grid2 container spacing={2}>
-                <Typography variant="h6" align="center">
-                <img src={Logo} width={150} height={150}/>
-                </Typography>
-                <Grid2 size={4}>
-                    <Typography variant="body2" align="center">
-                        123 Main Street, Cityville |
-                        <Link href="tel:+15551234567" color="inherit" underline="hover">
-                            +1 (555) 123-4567
-                        </Link>{' '}
-                        
-                        <Link href="mailto:info@example.com" color="inherit" underline="hover">
-                            info@example.com
-                        </Link>
+                <Grid2 size={12}>
+                    <Typography variant="body2" align="center" >
+                        <img src={Logo_Data}/>
                     </Typography>
                 </Grid2>
-                <Grid2 size={4}>
-                    <Box display="flex" justifyContent="center">
-                        {/* Replace with your social media links */}
-                        <Link href="#" color="inherit" target="_blank" rel="noopener" underline="hover">
-                            <i className="fab fa-facebook-f"></i>
-                        </Link>
-                        {/* Add other social media icons as needed */}
-                    </Box>
-                </Grid2>
-                <Grid2 size={8}>
+                <Grid2 size={12}>
                     <Typography variant="body2" align="center" sx={{ mt: 2 }}>
                         © {new Date().getFullYear()} Your Company Name | All Rights Reserved Meir Juli|{' '}
                         <Link href="/privacy" color="inherit" underline="hover">
