@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // import UploadWidget from 'components/utils/UploadWidget';
 import { deleteResource, getImagesResource, uploadMedia, uploadVideo } from 'api/media';
 import { useForm } from 'react-hook-form';
+import SystemCarousel from './systemCarousel';
 
 const mainScreenCarouselSwipTime = 5000;
 
@@ -46,64 +47,15 @@ const AppCarousel = () => {
     const { user } = React.useContext(AppUserContext)
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
-    const { register, watch } = useForm()
-
-    const handleUpload = async () => {
-        const file = watch("file")[0]
-
-        const formData = new FormData()
-        formData.append("file", file)
-
-        const response = await uploadMedia(formData)
-
-        setPublicIds(perv => [...publicIds, response.public_id])
-    }
-
-    const handleUploadVideo = () => {
-        const video = watch("video")[0];
-
-        const chunkSize = 6_000_000;
-        const totalChunks = Math.ceil(video.size / chunkSize);
-
-        const uploadId = crypto.randomUUID();
-
-        for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-            const start = chunkIndex * chunkSize;
-            const end = Math.min(start + chunkSize, video.size);
-            const chunk = video.slice(start, end);
-
-            const formData = new FormData();
-            formData.append('video', video);
-
-            const headers = {
-                'x-unique-upload-id': uploadId,
-                'content-range': `bytes ${start}-${end - 1}/${video.size}`,
-            };
-
-            console.log({ formData, headers })
-
-            uploadVideo(formData, headers)
-
-        }
-
-    }
-
-    const handleDeleteResource = async (id: string) => {
-        const response = await deleteResource(id)
-
-        // if(response){
-        //     const updatedArray = 
-        // }
-    }
-
     if (!publicIds.length) return <></>
 
     if (user !== null && user.email === "mybs2323@gmail.com") {
         return (
             <>
+                <SystemCarousel publicIds={publicIds} setPublicIds={setPublicIds} />
                 {/* <UploadWidget setPublicId={setPublicId} /> */}
 
-                <input
+                {/* <input
                     multiple
                     {...register("file")}
                     type="file"
@@ -118,9 +70,9 @@ const AppCarousel = () => {
                     type="file"
                 />
 
-                {!!watch("video") && <button name="video" onClick={handleUploadVideo} type="submit">העלאת וידאו</button>}
+                {!!watch("video") && <button name="video" onClick={handleUploadVideo} type="submit">העלאת וידאו</button>} */}
 
-                <ImageList sx={{ width: '100%', height: 1100 }}>
+                {/* <ImageList sx={{ width: '100%', height: 1100 }}>
                     <ImageListItem key="Subheader" cols={2}>
                         <ListSubheader component="div" style={{ fontWeight: 'bold', textAlign: 'right' }}>במצב שליטת מנהל מערכת</ListSubheader>
                     </ImageListItem>
@@ -145,7 +97,7 @@ const AppCarousel = () => {
                             />
                         </ImageListItem>
                     ))}
-                </ImageList>
+                </ImageList> */}
             </>
         )
     }

@@ -28,7 +28,6 @@ const Home: React.FC = () => {
       <Box>
         <ScreenWrapper ><AppCarousel /></ScreenWrapper>
 
-
         <Paper elevation={3} sx={{ width: "55%", height: 'fit-content', margin: '5% auto', backgroundColor: 'inherit', fontFamily: 'Sora, sens-serif' }}>
           <Typography sx={{ color: "#244545", fontSize: '22px', textAlign: 'center', fontWeight: 'bold' }}>ברק יצחק לוי</Typography>
           <Typography sx={{ fontSize: '22px' }} className="banner">

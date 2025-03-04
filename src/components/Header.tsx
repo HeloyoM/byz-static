@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AppUserContext from 'contexes/AppUserContext';
 import GoogleButton from './common/GoogleButton';
 import AppModal from './common/AppModal';
+import settings from '../settings/settings.json'
 
 const LoginButton = () => {
     const { loginWithRedirect } = useAuth0();
@@ -26,9 +27,10 @@ const LogoutButton = () => {
 const Header = () => {
     const { user: authUser, isAuthenticated } = useAuth0();
     const [openModal, setOpenModal] = React.useState(false)
+    // add it and the useEffect below, to add sticky style to the menu
     // const [isSticky, setSticky] = React.useState(false)
     const [openMenu, setOpenMenu] = React.useState(false)
-
+    console.log(settings.name)
     const openMenuModal = () => { setOpenMenu(true) }
     const closeMenuModal = () => { setOpenMenu(false) }
 
@@ -82,7 +84,7 @@ const Header = () => {
     return (
         <>
             <Typography className={/*isSticky ? 'title sticky' : */'sticky title'}>
-                <Typography style={{ margin: 'auto auto', fontSize: '22px' }}>BYL</Typography>
+                <Typography style={{ margin: 'auto auto', fontSize: '22px' }}>{settings.name.toUpperCase()}</Typography>
                 {!openMenu && <MenuIcon onClick={openMenuModal} className="menu-btn" />}
 
                 <Menu menuBody={<AppList items={optionsListItems} />} close={closeMenuModal} openMenu={openMenu} />
