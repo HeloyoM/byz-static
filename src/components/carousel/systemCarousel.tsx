@@ -47,8 +47,6 @@ const SystemCarousel = ({ publicIds, setPublicIds }: Props) => {
                 'content-range': `bytes ${start}-${end - 1}/${video.size}`,
             };
 
-            console.log({ formData, headers })
-
             uploadVideo(formData, headers)
 
         }

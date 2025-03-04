@@ -1,18 +1,11 @@
 import React from 'react';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
-import IconButton from '@mui/material/IconButton';
 import Carousel from 'react-material-ui-carousel';
 import { AdvancedImage } from '@cloudinary/react';
 import { responsive, placeholder } from '@cloudinary/react';
 import { Cloudinary } from "@cloudinary/url-gen";
 import AppUserContext from 'contexes/AppUserContext';
-import DeleteIcon from '@mui/icons-material/Delete';
 // import UploadWidget from 'components/utils/UploadWidget';
-import { deleteResource, getImagesResource, uploadMedia, uploadVideo } from 'api/media';
-import { useForm } from 'react-hook-form';
+import { getImagesResource } from 'api/media';
 import SystemCarousel from './systemCarousel';
 
 const mainScreenCarouselSwipTime = 5000;
@@ -51,54 +44,8 @@ const AppCarousel = () => {
 
     if (user !== null && user.email === "mybs2323@gmail.com") {
         return (
-            <>
-                <SystemCarousel publicIds={publicIds} setPublicIds={setPublicIds} />
-                {/* <UploadWidget setPublicId={setPublicId} /> */}
-
-                {/* <input
-                    multiple
-                    {...register("file")}
-                    type="file"
-                />
-
-                {!!watch("file") && <button onClick={handleUpload} type="submit">העלאת תמונה</button>}
-
-                <input
-                    multiple
-                    placeholder='video'
-                    {...register("video")}
-                    type="file"
-                />
-
-                {!!watch("video") && <button name="video" onClick={handleUploadVideo} type="submit">העלאת וידאו</button>} */}
-
-                {/* <ImageList sx={{ width: '100%', height: 1100 }}>
-                    <ImageListItem key="Subheader" cols={2}>
-                        <ListSubheader component="div" style={{ fontWeight: 'bold', textAlign: 'right' }}>במצב שליטת מנהל מערכת</ListSubheader>
-                    </ImageListItem>
-                    {publicIds.map((item, i) => (
-                        <ImageListItem key={item}>
-                            <AdvancedImage
-                                key={i}
-                                style={{ width: '100%', height: 300, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
-                                cldImg={cld.image(item)}
-                                plugins={[responsive(), placeholder()]}
-                            />
-                            <ImageListItemBar
-                                onClick={() => handleDeleteResource(item)}
-                                sx={{ "root": { backgroundColor: 'white !impoartant' } }}
-                                actionIcon={
-                                    <IconButton
-                                        sx={{ color: 'rgb(255, 0, 0)' }}
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                            />
-                        </ImageListItem>
-                    ))}
-                </ImageList> */}
-            </>
+            <SystemCarousel publicIds={publicIds} setPublicIds={setPublicIds} />
+            /*{ <UploadWidget setPublicId={setPublicId} /> }*/
         )
     }
 
@@ -106,7 +53,7 @@ const AppCarousel = () => {
         <Carousel
             swipe
             animation='slide'
-            duration={3000}
+            duration={5000}
             interval={mainScreenCarouselSwipTime}
             navButtonsProps={{
                 style: {
@@ -118,7 +65,7 @@ const AppCarousel = () => {
             {
                 publicIds.map((item, i) => (<AdvancedImage
                     key={i}
-                    style={{ width: '100%', height: 900, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
+                    style={{ willChange: "scroll-position", width: '100%', height: 900, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
                     cldImg={cld.image(item)}
                     plugins={[responsive(), placeholder()]}
                 />))

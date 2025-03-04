@@ -1,5 +1,6 @@
 import { Box, Link, Typography } from "@mui/material";
 import Grid2 from '@mui/material/Grid2';
+const Logo = require('../assets/logo.jpg')
 
 const Footer = () => {
 
@@ -15,8 +16,7 @@ const Footer = () => {
         >
             <Grid2 container spacing={2}>
                 <Typography variant="h6" align="center">
-                    {/* Replace with your company logo */}
-                    Your Company Logo
+                <img src={Logo} width={150} height={150}/>
                 </Typography>
                 <Grid2 size={4}>
                     <Typography variant="body2" align="center">
@@ -24,7 +24,7 @@ const Footer = () => {
                         <Link href="tel:+15551234567" color="inherit" underline="hover">
                             +1 (555) 123-4567
                         </Link>{' '}
-                        |
+                        
                         <Link href="mailto:info@example.com" color="inherit" underline="hover">
                             info@example.com
                         </Link>
