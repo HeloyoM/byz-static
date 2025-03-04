@@ -40,7 +40,6 @@ body {
 .screen {
   overflow-y: scroll;
   overflow-x: hidden;
-  position: fixed;
 }
 
 .title {
