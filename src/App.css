@@ -3,14 +3,13 @@ body {
 }
 
 .banner {
-  /* background-image: url('./assets/banner2.png'); */
   text-align: center;
   font-size: 2rem;
 
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
+  width: 7px;
 }
 
 *::-webkit-scrollbar-track {
@@ -22,7 +21,7 @@ body {
   border-radius: 100px;
   border-left: 0;
   border-right: 0;
-  background-color: #F1EAE2;
+  background-color: #244545;
 }
 
 .menu-btn {

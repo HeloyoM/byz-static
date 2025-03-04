@@ -1,10 +1,13 @@
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Grid2 from '@mui/material/Grid2';
-import settings from '../settings/settings.json';
-const Logo = require('../assets/logo.png');
+import { MOBILE_WIDTH, useMobile } from "./utils/useMobile";
 const Logo_Data = require('../assets/logo_data_opacity.png');
+const Logo_Data_Mobile = require('../assets/logo_data_opacity_mobile.png');
 
 const Footer = () => {
+    const windowWidth = useMobile();
+
+    const isMobile = MOBILE_WIDTH >= windowWidth;
 
     return (
         <Box
@@ -19,19 +22,12 @@ const Footer = () => {
             <Grid2 container spacing={2}>
                 <Grid2 size={12}>
                     <Typography variant="body2" align="center" >
-                        <img src={Logo_Data}/>
+                        {!isMobile ?<img src={Logo_Data} /> : <img src={Logo_Data_Mobile}/>}
                     </Typography>
                 </Grid2>
                 <Grid2 size={12}>
                     <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-                        © {new Date().getFullYear()} Your Company Name | All Rights Reserved Meir Juli|{' '}
-                        <Link href="/privacy" color="inherit" underline="hover">
-                            Privacy Policy
-                        </Link>{' '}
-                        |{' '}
-                        <Link href="/terms" color="inherit" underline="hover">
-                            Terms of Service
-                        </Link>
+                        © {new Date().getFullYear()} B.Y.L | All Rights Reserved Meir Juli
                     </Typography>
                 </Grid2>
             </Grid2>

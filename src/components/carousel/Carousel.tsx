@@ -7,6 +7,7 @@ import AppUserContext from 'contexes/AppUserContext';
 // import UploadWidget from 'components/utils/UploadWidget';
 import { getImagesResource } from 'api/media';
 import SystemCarousel from './systemCarousel';
+import { MOBILE_WIDTH, useMobile } from 'components/utils/useMobile';
 
 const mainScreenCarouselSwipTime = 5000;
 
@@ -40,6 +41,10 @@ const AppCarousel = () => {
     const { user } = React.useContext(AppUserContext)
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
+    const windowWidth = useMobile();
+
+    const isMobile = MOBILE_WIDTH >= windowWidth;
+
     if (!publicIds.length) return <></>
 
     if (user !== null && user.email === "mybs2323@gmail.com") {
@@ -55,6 +60,7 @@ const AppCarousel = () => {
             animation='slide'
             duration={5000}
             interval={mainScreenCarouselSwipTime}
+            sx={{marginTop: '10%'}}
             navButtonsProps={{
                 style: {
                     backgroundColor: 'cornflowerblue',
@@ -65,7 +71,7 @@ const AppCarousel = () => {
             {
                 publicIds.map((item, i) => (<AdvancedImage
                     key={i}
-                    style={{ willChange: "scroll-position", width: '100%', height: 900, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
+                    style={{ willChange: "scroll-position", width: '100%', height: !isMobile ?800 : 550, repeat: 'none', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
                     cldImg={cld.image(item)}
                     plugins={[responsive(), placeholder()]}
                 />))

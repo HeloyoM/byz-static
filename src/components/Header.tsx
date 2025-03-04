@@ -9,7 +9,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AppUserContext from 'contexes/AppUserContext';
 import GoogleButton from './common/GoogleButton';
 import AppModal from './common/AppModal';
-import settings from '../settings/settings.json'
+import settings from '../settings/settings.json';
+
 const Logo = require('../assets/logo.png')
 
 const LoginButton = () => {
@@ -21,7 +22,7 @@ const LoginButton = () => {
 const LogoutButton = () => {
     const { logout } = useAuth0();
     return (<GoogleButton handleClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-        התנתק
+        התנתק ממצב מנהל
     </GoogleButton>)
 }
 
@@ -61,7 +62,7 @@ const Header = () => {
             <Typography className={'sticky title'}>
 
                 <img src={Logo} width={75} height={75} style={{ backgroundColor: 'inherit', marginLeft: 20 }} />
-                
+
                 <Typography style={{ margin: 'auto auto', fontSize: '22px' }}>{settings.name}</Typography>
 
                 {!openMenu && <MenuIcon onClick={openMenuModal} className="menu-btn" />}
