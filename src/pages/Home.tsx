@@ -1,19 +1,13 @@
 import React from 'react';
-import AppCarousel from 'components/carousel/Carousel';
-import { Box, Container, Divider, Paper, Typography } from '@mui/material';
 import '../App.css';
+import AppCarousel from 'components/carousel/Carousel';
+import { Box, Divider, Paper, Typography } from '@mui/material';
 import ScreenWrapper from 'components/ScreenWrapper';
 import Footer from 'components/Footer';
-import { useMobile, MOBILE_WIDTH } from 'components/utils/useMobile';
 import Galery from 'components/Galery';
+import Banner from 'components/Banner';
 
 const Home: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-
-  const windowWidth = useMobile()
-
-  const isMobile = MOBILE_WIDTH >= windowWidth
-
   return (
     <React.Fragment>
       <Box>
@@ -33,11 +27,11 @@ const Home: React.FC = () => {
 
         </Paper>
         <ScreenWrapper >
-          <Typography style={{textAlign: 'center', fontSize: '22px', color: '#244545', fontWeight: 'bold'}}>Galery</Typography>
+          <Typography style={{ textAlign: 'center', fontSize: '22px', color: '#244545', fontWeight: 'bold' }}>Galery</Typography>
           <Galery />
         </ScreenWrapper>
 
-        <Container sx={{ fontSize: `45px`, transition: "font-size 0.1s ease", backgroundColor: "#244545", width: '100%', height: 'fit-content', maxWidth: '100% !important', color: 'white', textAlign: 'center', fontFamily: 'Sora, sens-serif' }}>חשמל בטוח, שירות מקצועי</Container>
+        <Banner />
 
       </Box>
 
@@ -47,4 +41,3 @@ const Home: React.FC = () => {
 }
 
 export default Home;
-
