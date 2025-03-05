@@ -31,7 +31,7 @@ export default function AppToast() {
             toastOptions={{
                 className: '',
                 success: {
-                    icon: emojys.article,
+                    icon: emojys.video,
                     duration: 4000,
                     style: {
                         border: '2px solid green',

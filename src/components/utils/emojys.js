@@ -1,7 +1,7 @@
 export default {
     error: '❌',
     checkmark: "✔️",
-    article: "🧾",
+    video: "▶",
     delete: "🗑",
-    love: "❤️"
+    picture: "📷"
 }
