@@ -10,6 +10,7 @@ import AppUserContext from 'contexes/AppUserContext';
 import GoogleButton from './common/GoogleButton';
 import AppModal from './common/AppModal';
 import settings from '../settings/settings.json';
+import ContactUs from './ContactUs';
 
 const Logo = require('../assets/logo.png')
 
@@ -46,7 +47,7 @@ const Header = () => {
                     color: 'white',
                     backgroundColor: '#244545',
                 },
-            },]}>גלריה</Button>, <img src={Logo} width={75} height={75} style={{ margin: 'auto auto' }} />, <LoginButton />,
+            },]}>גלריה</Button>, <img src={Logo} width={75} height={75} style={{ margin: '5% auto' }} />, <ContactUs />, <LoginButton />,
     ]), [authUser])
 
     const closeModal = () => { setOpenModal(prev => false) }
