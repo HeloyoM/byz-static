@@ -1,12 +1,12 @@
-import { Drawer, IconButton } from '@mui/material'
-import { JSX } from 'react'
+import { JSX } from 'react';
+import { Drawer, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
     openMenu: boolean
     close: () => void
-    menuBody: JSX.Element
+    menuBody: JSX.Element[]
     variant?: 'permanent' | 'persistent' | 'temporary'
 }
 const drawerWidth = 350;

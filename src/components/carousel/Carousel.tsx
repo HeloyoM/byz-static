@@ -12,7 +12,7 @@ import { MOBILE_WIDTH, useMobile } from 'components/utils/useMobile';
 const mainScreenCarouselSwipTime = 5000;
 
 const AppCarousel = () => {
-    const [publicIds, setPublicIds] = React.useState<any[]>([])
+    const [publicIds, setPublicIds] = React.useState<any[]>([]);
 
     React.useEffect(() => {
         if (!!publicIds.length) return

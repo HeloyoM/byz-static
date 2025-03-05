@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { Typography } from "@mui/material";
+import React, { JSX, useEffect, useMemo } from 'react';
+import { Button, Typography } from "@mui/material";
 import '../App.css';
 import { IListItem } from 'interface/IListItem.interface';
 import Menu from 'components/common/Menu';
@@ -16,7 +16,7 @@ const Logo = require('../assets/logo.png')
 const LoginButton = () => {
     const { loginWithRedirect } = useAuth0();
 
-    return <GoogleButton handleClick={loginWithRedirect}>התחבר כמצב מנהל מערכת</GoogleButton>;
+    return <GoogleButton handleClick={loginWithRedirect}>התחבר כמנהל</GoogleButton>;
 };
 
 const LogoutButton = () => {
@@ -36,10 +36,17 @@ const Header = () => {
 
     const { updateUserContext } = React.useContext(AppUserContext)
 
-    const optionsListItems: IListItem[] = useMemo(() => ([
-        { primary: 'galery', handleClick: () => { }, secondary: '' },
-        { primary: 'active', handleClick: () => { }, secondary: '' },
-        { primary: <LoginButton />, handleClick: () => { }, secondary: '' },
+    const optionsListItems = useMemo(() => ([
+        <Button sx={[
+            {
+                height: '100px',
+                fontSize: '30px',
+                fontFamily: "Sora, sens-serif",
+                '&:hover': {
+                    color: 'white',
+                    backgroundColor: '#244545',
+                },
+            },]}>גלריה</Button>, <img src={Logo} width={75} height={75} style={{ margin: 'auto auto' }} />, <LoginButton />,
     ]), [authUser])
 
     const closeModal = () => { setOpenModal(prev => false) }
@@ -50,7 +57,7 @@ const Header = () => {
                 updateUserContext(authUser)
 
                 optionsListItems.pop() // remove login button
-                optionsListItems.push({ primary: <LogoutButton />, handleClick: () => { }, secondary: '' })
+                optionsListItems.push(<LogoutButton />)
             } else {
                 setOpenModal(true)
             }
@@ -67,7 +74,7 @@ const Header = () => {
 
                 {!openMenu && <MenuIcon onClick={openMenuModal} className="menu-btn" />}
 
-                <Menu menuBody={<AppList items={optionsListItems} />} close={closeMenuModal} openMenu={openMenu} />
+                <Menu menuBody={optionsListItems} close={closeMenuModal} openMenu={openMenu} />
 
             </Typography>
 

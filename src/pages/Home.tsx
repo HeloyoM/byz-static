@@ -5,6 +5,7 @@ import '../App.css';
 import ScreenWrapper from 'components/ScreenWrapper';
 import Footer from 'components/Footer';
 import { useMobile, MOBILE_WIDTH } from 'components/utils/useMobile';
+import Galery from 'components/Galery';
 
 const Home: React.FC = () => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -12,7 +13,7 @@ const Home: React.FC = () => {
   const windowWidth = useMobile()
 
   const isMobile = MOBILE_WIDTH >= windowWidth
-  
+
   return (
     <React.Fragment>
       <Box>
@@ -31,6 +32,10 @@ const Home: React.FC = () => {
           </Typography>
 
         </Paper>
+        <ScreenWrapper >
+          <Typography style={{textAlign: 'center', fontSize: '22px', color: '#244545', fontWeight: 'bold'}}>Galery</Typography>
+          <Galery />
+        </ScreenWrapper>
 
         <Container sx={{ fontSize: `45px`, transition: "font-size 0.1s ease", backgroundColor: "#244545", width: '100%', height: 'fit-content', maxWidth: '100% !important', color: 'white', textAlign: 'center', fontFamily: 'Sora, sens-serif' }}>חשמל בטוח, שירות מקצועי</Container>
 
