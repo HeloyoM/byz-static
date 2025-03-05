@@ -1,9 +1,7 @@
-import React, { JSX, useEffect, useMemo } from 'react';
-import { Button, Typography } from "@mui/material";
+import React, { useEffect, useMemo } from 'react';
+import { Button, Typography, TextField } from "@mui/material";
 import '../App.css';
-import { IListItem } from 'interface/IListItem.interface';
 import Menu from 'components/common/Menu';
-import AppList from 'components/common/AppList';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth0 } from "@auth0/auth0-react";
 import AppUserContext from 'contexes/AppUserContext';
@@ -31,9 +29,12 @@ const Header = () => {
     const { user: authUser, isAuthenticated } = useAuth0();
     const [openModal, setOpenModal] = React.useState(false)
     const [openMenu, setOpenMenu] = React.useState(false)
+    const [rename, setRename] = React.useState('')
 
     const openMenuModal = () => { setOpenMenu(true) }
     const closeMenuModal = () => { setOpenMenu(false) }
+
+    const isAdmin = authUser?.email === "mybs2323@gmail.com";
 
     const { updateUserContext } = React.useContext(AppUserContext)
 
@@ -54,7 +55,7 @@ const Header = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            if (authUser?.email === "mybs2323@gmail.com") {
+            if (isAdmin) {
                 updateUserContext(authUser)
 
                 optionsListItems.pop() // remove login button
@@ -63,7 +64,14 @@ const Header = () => {
                 setOpenModal(true)
             }
         }
-    }, [isAuthenticated, authUser])
+    }, [isAuthenticated, authUser, isAdmin])
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (e.target.value.length > 10) return
+
+        setRename(e.target.value)
+    }
 
     return (
         <>
@@ -71,7 +79,22 @@ const Header = () => {
 
                 <img src={Logo} width={75} height={75} style={{ backgroundColor: 'inherit', marginLeft: 20 }} />
 
-                <Typography style={{ margin: 'auto auto', fontSize: '22px' }}>{settings.name}</Typography>
+                {!isAdmin
+                    ? <Typography
+                        style={{
+                            margin: 'auto auto',
+                            fontSize: '22px'
+                        }}>{settings.name}
+                    </Typography>
+                    : <TextField
+                        style={{
+                            margin: 'auto auto',
+                            fontSize: '22px'
+                        }}
+                        onChange={(e) => handleChange(e)}
+                        value={rename}
+                        placeholder={settings.name}
+                    />}
 
                 {!openMenu && <MenuIcon onClick={openMenuModal} className="menu-btn" />}
 
