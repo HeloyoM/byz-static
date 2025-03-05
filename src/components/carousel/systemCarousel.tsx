@@ -1,4 +1,4 @@
-import { IconButton, ImageList, ImageListItem, ImageListItemBar, ListSubheader } from "@mui/material"
+import { Box, IconButton, ImageList, ImageListItem, ImageListItemBar, ListSubheader, Typography } from "@mui/material";
 import { deleteResource, uploadMedia, uploadVideo } from 'api/media';
 import { useForm } from 'react-hook-form';
 import { AdvancedImage } from '@cloudinary/react';
@@ -16,41 +16,23 @@ const SystemCarousel = ({ publicIds, setPublicIds }: Props) => {
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
     const handleUpload = async () => {
-        const file = watch("file")[0]
+        const file = watch("file")[0];
 
-        const formData = new FormData()
-        formData.append("file", file)
+        const formData = new FormData();
+        formData.append("file", file);
 
-        const response = await uploadMedia(formData)
+        const response = await uploadMedia(formData);
 
-        setPublicIds(perv => [...publicIds, response.public_id])
+        setPublicIds(perv => [...publicIds, response.public_id]);
     }
 
     const handleUploadVideo = () => {
         const video = watch("video")[0];
 
-        const chunkSize = 6_000_000;
-        const totalChunks = Math.ceil(video.size / chunkSize);
+        const formData = new FormData();
+        formData.append('video', video);
 
-        const uploadId = crypto.randomUUID();
-
-        for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-            const start = chunkIndex * chunkSize;
-            const end = Math.min(start + chunkSize, video.size);
-            const chunk = video.slice(start, end);
-
-            const formData = new FormData();
-            formData.append('video', video);
-
-            const headers = {
-                'x-unique-upload-id': uploadId,
-                'content-range': `bytes ${start}-${end - 1}/${video.size}`,
-            };
-
-            uploadVideo(formData, headers)
-
-        }
-
+        uploadVideo(formData);
     }
 
     const handleDeleteResource = async (id: string) => {
@@ -64,23 +46,6 @@ const SystemCarousel = ({ publicIds, setPublicIds }: Props) => {
     return (
         <>
             {/* <UploadWidget setPublicId={setPublicId} /> */}
-
-            <input
-                multiple
-                {...register("file")}
-                type="file"
-            />
-
-            {!!watch("file") && <button onClick={handleUpload} type="submit">העלאת תמונה</button>}
-
-            <input
-                multiple
-                placeholder='video'
-                {...register("video")}
-                type="file"
-            />
-
-            {!!watch("video") && <button name="video" onClick={handleUploadVideo} type="submit">העלאת וידאו</button>}
 
             <ImageList sx={{ width: '100%', height: 1100 }}>
                 <ImageListItem key="Subheader" cols={2}>
@@ -108,6 +73,29 @@ const SystemCarousel = ({ publicIds, setPublicIds }: Props) => {
                     </ImageListItem>
                 ))}
             </ImageList>
+            <Box style={{ border: '1px solid cornflowerblue', width: 500, margin: '3% 3%' }}>
+                <Typography>העלאת תמונה</Typography>
+                <input
+                    multiple
+                    {...register("file")}
+                    type="file"
+                />
+
+                {watch("file") && watch("file")[0] && <button onClick={handleUpload} style={{ backgroundColor: 'cornflowerblue', fontSize: '19px', borderRadius: 8, border: 'none' }} type="submit">העלאת תמונה</button>}
+
+            </Box>
+
+            <Box style={{ border: '1px solid cornflowerblue', width: 500, margin: '3% 3%' }}>
+                <Typography>העלאת וידאו</Typography>
+                <input
+                    multiple
+                    placeholder='video'
+                    {...register("video")}
+                    type="file"
+                />
+
+                {watch("video") && watch("video")[0] && <button name="video" style={{ backgroundColor: 'cornflowerblue', fontSize: '19px', borderRadius: 8, border: 'none' }} onClick={handleUploadVideo} type="submit">העלאת וידאו</button>}
+            </Box>
         </>
     )
 }

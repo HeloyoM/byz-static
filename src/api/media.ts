@@ -1,6 +1,7 @@
 import axios from "axios";
 import { DELETE, GET } from "./api-req";
 import { LOCAL_DEV } from "./base-url";
+
 const API = 'media'
 
 export const uploadMedia = async (file: any) => {
@@ -13,10 +14,10 @@ export const uploadMedia = async (file: any) => {
     return response
 }
 
-export const uploadVideo = async (file: any, headers: any) => {
-    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-large-from-local`, file, {
-        headers
-    });
+export const uploadVideo = async (file: any) => {
+    const response = await axios.post(`${LOCAL_DEV}/${API}/upload-large-stream-from-browser`, file );
+
+    return response
 }
 
 export const getImagesResource = async () => {
