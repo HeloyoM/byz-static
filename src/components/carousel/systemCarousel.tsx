@@ -5,6 +5,9 @@ import { AdvancedImage } from '@cloudinary/react';
 import { responsive, placeholder } from '@cloudinary/react';
 import { Cloudinary } from "@cloudinary/url-gen";
 import DeleteIcon from '@mui/icons-material/Delete';
+import AppServerMsg from "contexes/AppServerMsg";
+import React from "react";
+import { Toast } from "enum/Toast.enum";
 
 type Props = {
     publicIds: string[]
@@ -12,6 +15,8 @@ type Props = {
 }
 const SystemCarousel = ({ publicIds, setPublicIds }: Props) => {
     const { register, watch } = useForm()
+
+    const { updateServerMsgContext } = React.useContext(AppServerMsg)
 
     const cld = new Cloudinary({ cloud: { cloudName: 'traceback' } });
 
@@ -26,13 +31,17 @@ const SystemCarousel = ({ publicIds, setPublicIds }: Props) => {
         setPublicIds(perv => [...publicIds, response.public_id]);
     }
 
-    const handleUploadVideo = () => {
+    const handleUploadVideo = async () => {
         const video = watch("video")[0];
 
         const formData = new FormData();
         formData.append('video', video);
 
-        uploadVideo(formData);
+        const response = await uploadVideo(formData);
+        
+        if(response.status === 200) {
+            updateServerMsgContext(Toast.VIDEO_UPLOADED)
+        } 
     }
 
     const handleDeleteResource = async (id: string) => {

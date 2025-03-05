@@ -1,6 +1,4 @@
 import React from 'react';
-import i18next from 'i18next'
-import { composeInitialProps, initReactI18next } from 'react-i18next'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import Profile from 'pages/Profile';
@@ -9,39 +7,20 @@ import Home from 'pages/Home';
 import ScreenWrapper from 'components/ScreenWrapper';
 import Header from 'components/Header';
 import AppUserContext from 'contexes/AppUserContext';
+import AppServerMsgContext from "./contexes/AppServerMsg";
 import './App.css';
-import { AppDirectionContext } from 'contexes/languages-context';
-import { Langs } from 'enum/Langs.enum';
-import { he } from './i18n/languages/index';
-
-export const inisializeI18n = (lang: string) => {
-  i18next.use(initReactI18next).init({
-    lng: lang,
-    fallbackLng: Langs.en,
-    debug: false,
-    resources: {
-      en: {
-        // translation: en,
-      },
-      he: {
-        translation: he,
-      },
-    }
-  })
-}
-
-const lang = Langs.he
-inisializeI18n(lang)
+import AppToast from 'components/common/AppToast';
 
 const App: React.FC = () => {
-  const [isRtlDirection, setDirection] = React.useState<boolean>(true);
   const [crrUser, setUser] = React.useState<any>(null);
+  const [serverMsg, setServerMsg] = React.useState('');
 
   const updateUserContext = (user: any) => { setUser(user) }
   console.log({ crrUser })
-  const toggleDirection = (isRtl: boolean) => setDirection(isRtl);
+
+  const updateServerMsgContext = (msg: any) => { setServerMsg(msg) }
   return (
-    <AppDirectionContext.Provider value={{ isRtlDirection, toggleDirection }}>
+    <AppServerMsgContext.Provider value={{ updateServerMsgContext, serverMsg }}>
       <AppUserContext.Provider value={{ updateUserContext, user: crrUser }}>
         <Router>
           <ScreenWrapper><Header /></ScreenWrapper>
@@ -54,8 +33,11 @@ const App: React.FC = () => {
           </Routes>
 
         </Router>
+
+        <AppToast />
+
       </AppUserContext.Provider>
-    </AppDirectionContext.Provider>
+    </AppServerMsgContext.Provider>
   );
 };
 
